@@ -1,0 +1,46 @@
+# --- Core async dependencies ---
+aiofiles
+aiohttp
+beautifulsoup4
+dnspython
+
+# --- Media & processing ---
+ffmpeg-python
+hachoir
+opencv-python
+pillow==9.5.0
+numpy
+
+# --- System & performance ---
+psutil
+uvloop==0.17.0; sys_platform != "win32"  # Compatible with Python 3.10+
+
+# --- Database & API ---
+motor
+python-dotenv
+pyyaml
+requests
+heroku3
+
+# --- Telegram / Music bot libs ---
+kurigram
+py-tgcalls==0.9.7
+pytgcrypto
+spotipy
+unidecode
+
+# --- Git & utility ---
+gitpython
+speedtest-cli
+
+# --- YouTube / streaming ---
+yt-dlp
+youtube-search-python
+
+# --- Pyrogram (custom version) ---
+git+https://github.com/KurimuzonAkuma/pyrogram.git@2ae00a2710dd3e347798473f3dd784e9639edb1a
+
+# --- HTTP2 client (locked for stability) ---
+httpx[http2]
+py-yt-search
+

@@ -116,13 +116,31 @@ def make_rounded_rectangle(img, output_width, output_height, border, border_colo
     
     mask_inner = Image.new("L", (inner_w, inner_h), 0)
     draw_inner = ImageDraw.Draw(mask_inner)
-    draw_inner.rounded_rectangle((0, 0, inner_w, inner_h), radius=corner_radius, fill=255)
+    
+    r = corner_radius
+    w = inner_w
+    h = inner_h
+    draw_inner.ellipse((0, 0, 2*r, 2*r), fill=255)
+    draw_inner.ellipse((w - 2*r, 0, w, 2*r), fill=255)
+    draw_inner.ellipse((0, h - 2*r, 2*r, h), fill=255)
+    draw_inner.ellipse((w - 2*r, h - 2*r, w, h), fill=255)
+    draw_inner.rectangle((r, 0, w - r, h), fill=255)
+    draw_inner.rectangle((0, r, w, h - r), fill=255)
     
     final_img.paste(img, (border, border), mask_inner)
     
     mask_final = Image.new("L", (output_width, output_height), 0)
     draw_final = ImageDraw.Draw(mask_final)
-    draw_final.rounded_rectangle((0, 0, output_width, output_height), radius=corner_radius, fill=255)
+    
+    r_out = corner_radius
+    w_out = output_width
+    h_out = output_height
+    draw_final.ellipse((0, 0, 2*r_out, 2*r_out), fill=255)
+    draw_final.ellipse((w_out - 2*r_out, 0, w_out, 2*r_out), fill=255)
+    draw_final.ellipse((0, h_out - 2*r_out, 2*r_out, h_out), fill=255)
+    draw_final.ellipse((w_out - 2*r_out, h_out - 2*r_out, w_out, h_out), fill=255)
+    draw_final.rectangle((r_out, 0, w_out - r_out, h_out), fill=255)
+    draw_final.rectangle((0, r_out, w_out, h_out - r_out), fill=255)
     
     result = Image.composite(final_img, Image.new("RGBA", final_img.size, (0, 0, 0, 0)), mask_final)
     return result

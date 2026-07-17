@@ -22,7 +22,7 @@ from MusicSp.core.git import git
 from MusicSp.core.userbot import Userbot
 from MusicSp.misc import dbb, heroku
 
-from .logging import LOGGER
+from MusicSp.logging import LOGGER
 
 
 # --- Initialization calls ---
@@ -38,7 +38,7 @@ userbot = Userbot()
 
 
 # --- Platform imports ---
-from .platforms import *
+from MusicSp.platforms import *
 
 Apple = AppleAPI()
 Carbon = CarbonAPI()

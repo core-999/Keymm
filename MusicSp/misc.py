@@ -7,7 +7,7 @@ from pyrogram import filters
 import config
 from MusicSp.core.mongo import mongodb
 
-from .logging import LOGGER
+from MusicSp.logging import LOGGER
 
 SUDOERS = filters.user()
 

@@ -20,11 +20,11 @@
 ---
 
 <p align="center">
-  <a href="https://t.me/dev_Learntop">
+  <a href="https://t.me/Mecobots">
     <img src="https://img.shields.io/badge/Developer%20Home-Telegram-2E64FE?style=for-the-badge&logo=telegram&logoColor=white" alt="Developer Home">
   </a>
-  <a href="https://t.me/Spparow_92">
-    <img src="https://img.shields.io/badge/Contact%20Owner-%40Spparow__92-0088cc?style=for-the-badge&logo=telegram&logoColor=white" alt="Contact Owner">
+  <a href="https://t.me/Mecobots">
+    <img src="https://img.shields.io/badge/Contact%20Owner-%40Mecobots-0088cc?style=for-the-badge&logo=telegram&logoColor=white" alt="Contact Owner">
   </a>
 </p>
 
@@ -153,10 +153,10 @@ For a full list of commands, use /help in the bot chat.
 Stay updated with the latest features, releases, and fixes for **Devloper Sparrow Bot**:
 
 <p align="center">
-  <a href="https://t.me/dev_Learntop">
+  <a href="https://t.me/Mecobots">
     <img src="https://img.shields.io/badge/Join-Developer%20Home-blue?style=for-the-badge&logo=telegram" alt="Developer Home">
   </a>
-  <a href="https://t.me/Spparow_92">
+  <a href="https://t.me/Mecobots">
     <img src="https://img.shields.io/badge/Direct-Support-blue?style=for-the-badge&logo=telegram" alt="Direct Support">
   </a>
 </p>

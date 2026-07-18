@@ -31,7 +31,7 @@ def private_panel(_):
         ],
         [
             InlineKeyboardButton(text=_["S_B_6"], url=config.SUPPORT_CHANNEL),
-            InlineKeyboardButton(text="𝓓𝓮𝓿𝓵𝓸𝓹𝓮𝓻 𝓗𝓸𝓶𝓮 ", url=f"https://t.me/Mecobots"),
+            InlineKeyboardButton(text="˹ 𝖱𝖾𝗉𝗈𝗌𝗂𝗍𝗈ʀʏ ˼", url="https://github.com/DevloperSP/MusicSp"),
         ],
     ]
     return buttons

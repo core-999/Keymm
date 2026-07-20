@@ -18,7 +18,7 @@ except ImportError:
 # --- Original bot imports ---
 from MusicSp.core.bot import DevSp
 from MusicSp.core.dir import dirr
-from MusicSp.core.git import git
+#from MusicSp.core.git import git
 from MusicSp.core.userbot import Userbot
 from MusicSp.misc import dbb, heroku
 

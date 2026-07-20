@@ -5,8 +5,7 @@ import logging
 import os
 import aiofiles
 import aiohttp
-from PIL import Image
-from py_yt import VideosSearch
+from PIL import Image, ImageDraw, ImageFont
 
 logging.basicConfig(level=logging.INFO)
 
@@ -45,9 +44,44 @@ async def gen_thumb(videoid: str):
         image_path = f"cache/thumb{videoid}.png"
         youtube = Image.open(image_path)
         
-        # Resize to exactly 1280x720 (standard widescreen) without any blur, overlays or text
+        
         background = changeImageSize(1280, 720, youtube)
         background = background.convert("RGB")
+        
+        
+        # -----------------------------------------------------------------------
+        draw = ImageDraw.Draw(background)
+        
+        
+        font_path = "assets/font.ttf" 
+        
+        try:
+            title_font = ImageFont.truetype(font_path, 36)
+            name_font = ImageFont.truetype(font_path, 26)
+        except IOError:
+            title_font = ImageFont.load_default()
+            name_font = ImageFont.load_default()
+
+        
+        text_x = 750
+        title_y = 280
+        name_y = 340
+        
+        
+        draw.text((text_x, title_y), "Playing Your Requested Song", font=title_font, fill=(255, 255, 255))
+        
+        
+        your_name = "@HANTHAR999" 
+        draw.text((text_x, name_y), f"By: {your_name}", font=name_font, fill=(0, 255, 128)) # အစိမ်းရောင် သို့မဟုတ် လိမ္မော်ရောင်သုံးနိုင်သည်
+
+        # 3. Assets ထဲက Play Icon ကို ထည့်လိုပါက (Icon ဖိုင်ရှိနေလျှင်)
+        icon_path = "assets/play_icons.png"
+        if os.path.exists(icon_path):
+            play_icon = Image.open(icon_path).convert("RGBA")
+            play_icon = play_icon.resize((80, 80)) 
+            background.paste(play_icon, (text_x, 420), play_icon)
+
+        # -----------------------------------------------------------------------
         
         if os.path.exists(image_path):
             os.remove(image_path)

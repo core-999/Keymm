@@ -26,12 +26,9 @@ def private_panel(_):
         ],
         [InlineKeyboardButton(text=_["S_B_4"], callback_data="settings_back_helper")],
         [
-            InlineKeyboardButton(text=_["S_B_5"], user_id=config.OWNER_ID),
+            InlineKeyboardButton(text=_["S_B_6"], user_id=config.SUPPORT_CHANNEL),
             InlineKeyboardButton(text=_["S_B_2"], url=config.SUPPORT_GROUP),
         ],
-        [
-            InlineKeyboardButton(text=_["S_B_6"], url=config.SUPPORT_CHANNEL),
-            InlineKeyboardButton(text="˹ 𝖱𝖾𝗉𝗈𝗌𝗂𝗍𝗈ʀʏ ˼", url="https://github.com/DevloperSP/MusicSp"),
-        ],
+        [InlineKeyboardButton(text="Botများပြုလုပ်လို့ပါက နိုပ်ပါ", url="https://t.me/Hanthar999")],
     ]
     return buttons

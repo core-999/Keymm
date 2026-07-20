@@ -8,9 +8,9 @@ from pyrogram.types import Message
 from py_yt import VideosSearch, Playlist
 import aiohttp
 
-API_URL = os.environ.get("MusicSp_API_URL", "https://apisparrow.site")
+API_URL = os.environ.get("Myapikey", "")
 
-API_KEY = os.environ.get("MusicSp_API_KEY", "") ## Get This API KEY FROM OWNER: @SpYtAPIBot 
+API_KEY = os.environ.get("khithlainhtetDev999core", "") 
 
 DOWNLOAD_DIR = "downloads"
 
@@ -34,7 +34,7 @@ async def download_song(link: str) -> str:
         async with aiohttp.ClientSession() as session:
             async with session.get(
                 f"{API_URL}/download",
-                params={"url": video_id, "type": "audio", "api_key": API_KEY},
+                params={"url": video_id, "type": "audio"},
                 timeout=aiohttp.ClientTimeout(total=300)
             ) as resp:
                 if resp.status != 200:
@@ -68,7 +68,7 @@ async def download_video(link: str) -> str:
         async with aiohttp.ClientSession() as session:
             async with session.get(
                 f"{API_URL}/download",
-                params={"url": video_id, "type": "video", "api_key": API_KEY},
+                params={"url": video_id, "type": "video"},
                 timeout=aiohttp.ClientTimeout(total=600)
             ) as resp:
                 if resp.status != 200:

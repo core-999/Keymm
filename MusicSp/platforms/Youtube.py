@@ -8,9 +8,10 @@ from pyrogram.types import Message
 from py_yt import VideosSearch, Playlist
 import aiohttp
 
-API_URL = os.environ.get("MusicSp_API_URL", "key-production-78aa.up.railway.app")
+# 1. ဤနေရာတွင် https:// အပြည့်အစုံ ထည့်ပေးပါ
+API_URL = os.environ.get("MusicSp_API_URL", "https://key-production-78aa.up.railway.app/api/download")
 
-API_KEY = os.environ.get("MusicSp_API_KEY", "khithlainhtetapi2019") ## Get This API KEY FROM OWNER: @SpYtAPIBot 
+API_KEY = os.environ.get("MusicSp_API_KEY", "khithlainhtetapi2019") 
 
 DOWNLOAD_DIR = "downloads"
 
@@ -31,21 +32,42 @@ async def download_song(link: str) -> str:
         return file_path
 
     try:
+        # 2. Header ထဲတွင် x-api-key ထည့်သွင်းပေးခြင်း
+        headers = {
+            "x-api-key": API_KEY
+        }
+        params = {
+            "url": link,
+            "type": "audio"
+        }
+        
         async with aiohttp.ClientSession() as session:
             async with session.get(
-                f"{API_URL}/download",
-                params={"url": video_id, "type": "audio", "api_key": API_KEY},
+                API_URL,
+                headers=headers,
+                params=params,
                 timeout=aiohttp.ClientTimeout(total=300)
             ) as resp:
                 if resp.status != 200:
                     return None
-                with open(file_path, "wb") as f:
-                    async for chunk in resp.content.iter_chunked(131072):
-                        f.write(chunk)
+                
+                # JSON Response လာမလား သို့မဟုတ် တိုက်ရိုက် File လား စစ်ဆေးခြင်း
+                content_type = resp.headers.get("Content-Type", "")
+                if "application/json" in content_type:
+                    data = await resp.json()
+                    if data.get("status") == "success":
+                        file_url = f"https://key-production-78aa.up.railway.app{data.get('file_url')}"
+                        async with session.get(file_url) as file_resp:
+                            if file_resp.status == 200:
+                                with open(file_path, "wb") as f:
+                                    async for chunk in file_resp.content.iter_chunked(131072):
+                                        f.write(chunk)
+                
         if os.path.exists(file_path) and os.path.getsize(file_path) > 0:
             return file_path
         return None
-    except Exception:
+    except Exception as e:
+        print(f"Download Song Error: {e}")
         if os.path.exists(file_path):
             try:
                 os.remove(file_path)
@@ -65,27 +87,47 @@ async def download_video(link: str) -> str:
         return file_path
 
     try:
+        headers = {
+            "x-api-key": API_KEY
+        }
+        params = {
+            "url": link,
+            "type": "video"
+        }
+
         async with aiohttp.ClientSession() as session:
             async with session.get(
-                f"{API_URL}/download",
-                params={"url": video_id, "type": "video", "api_key": API_KEY},
+                API_URL,
+                headers=headers,
+                params=params,
                 timeout=aiohttp.ClientTimeout(total=600)
             ) as resp:
                 if resp.status != 200:
                     return None
-                with open(file_path, "wb") as f:
-                    async for chunk in resp.content.iter_chunked(131072):
-                        f.write(chunk)
+                
+                content_type = resp.headers.get("Content-Type", "")
+                if "application/json" in content_type:
+                    data = await resp.json()
+                    if data.get("status") == "success":
+                        file_url = f"https://key-production-78aa.up.railway.app{data.get('file_url')}"
+                        async with session.get(file_url) as file_resp:
+                            if file_resp.status == 200:
+                                with open(file_path, "wb") as f:
+                                    async for chunk in file_resp.content.iter_chunked(131072):
+                                        f.write(chunk)
+                                        
         if os.path.exists(file_path) and os.path.getsize(file_path) > 0:
             return file_path
         return None
-    except Exception:
+    except Exception as e:
+        print(f"Download Video Error: {e}")
         if os.path.exists(file_path):
             try:
                 os.remove(file_path)
             except Exception:
                 pass
         return None
+
 
 
 class YouTubeAPI:

@@ -1,3 +1,107 @@
+
+from MusicSp import app
+from MusicSp.utils.database import get_assistant
+
+from pyrogram import Client, filters, enums
+from pyrogram.types import (
+    ChatMemberUpdated,
+    ChatJoinRequest,
+    InlineKeyboardMarkup,
+    InlineKeyboardButton,
+    Message,
+)
+
+from PIL import Image, ImageDraw, ImageFont, ImageEnhance, ImageChops
+from motor.motor_asyncio import AsyncIOMotorClient
+from config import MONGO_DB_URI
+
+import asyncio
+import random
+import os
+import aiohttp
+from logging import getLogger
+
+LOGGER = getLogger(__name__)
+
+mongo = AsyncIOMotorClient(MONGO_DB_URI)
+db = mongo["Myanmar_DB"]
+welcomedb = db["welcome_toggle_system"]
+
+
+DEFAULT_WELCOME_BG = "https://files.catbox.moe/jebxwm.jpg"
+
+async def get_welcome(chat_id: int):
+    data = await welcomedb.find_one({"chat_id": chat_id})
+    if not data:
+        return True
+    return data.get("welcome", True)
+
+async def enable_welcome(chat_id: int):
+    await welcomedb.update_one(
+        {"chat_id": chat_id},
+        {"$set": {"welcome": True}},
+        upsert=True
+    )
+
+async def disable_welcome(chat_id: int):
+    await welcomedb.update_one(
+        {"chat_id": chat_id},
+        {"$set": {"welcome": False}},
+        upsert=True
+    )
+
+class temp:
+    MELCOW = {}
+
+def circle(pfp, size=(390, 390), brightness_factor=1.4):
+    pfp = pfp.resize(size).convert("RGBA")
+    pfp = ImageEnhance.Brightness(pfp).enhance(brightness_factor)
+
+    mask = Image.new("L", size, 0)
+    draw = ImageDraw.Draw(mask)
+    draw.ellipse((0, 0, size[0], size[1]), fill=255)
+
+    pfp.putalpha(mask)
+    return pfp
+
+
+async def download_bg():
+    bg_path = "downloads/shiviwel2.png"
+    if os.path.exists(bg_path):
+        return bg_path
+    os.makedirs("downloads", exist_ok=True)
+    try:
+        async with aiohttp.ClientSession() as session:
+            async with session.get(DEFAULT_WELCOME_BG) as resp:
+                if resp.status == 200:
+                    with open(bg_path, "wb") as f:
+                        f.write(await resp.read())
+                    return bg_path
+    except:
+        pass
+    return None
+
+
+async def welcomepic(pic, user, chatname, id, uname, brightness_factor=1.3):
+    bg_file = await download_bg()
+    if bg_file and os.path.exists(bg_file):
+        background = Image.open(bg_file).convert("RGBA")
+    else:
+        background = Image.new("RGBA", (1280, 720), (30, 30, 30, 255))
+
+    try:
+        pfp = Image.open(pic).convert("RGBA")
+        pfp = circle(pfp, size=(390, 390), brightness_factor=brightness_factor)
+        
+        background.paste(pfp, (90, 115), pfp)
+    except:
+        pass
+
+    output_path = f"downloads/welcome_{id}.png"
+    background.save(output_path)
+    return output_path
+ 
+@app.on_message(filters.command("welcome") & filters.group)
 async def welcome_cmd(_, message: Message):
     chat = message.chat
     chat_id = chat.id

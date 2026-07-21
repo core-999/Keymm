@@ -1,4 +1,26 @@
+async def welcome_cmd(_, message: Message):
+    chat = message.chat
+    chat_id = chat.id
 
+    user = await app.get_chat_member(chat_id, message.from_user.id)
+    if user.status not in (enums.ChatMemberStatus.ADMINISTRATOR, enums.ChatMemberStatus.OWNER):
+        return await message.reply_text("**» ᴏɴʟʏ ᴀᴅᴍɪɴꜱ ᴄᴀɴ ʜᴀɴᴅʟᴇ ᴡᴇʟᴄᴏᴍᴇ ꜱʏꜱᴛᴇᴍ**")
+
+    state = await get_welcome(chat_id)   
+    status = "ᴇɴᴀʙʟᴇᴅ" if state else "ᴅɪꜱᴀʙʟᴇᴅ"
+
+    btn = InlineKeyboardMarkup([
+        [
+            InlineKeyboardButton("ᴇɴᴀʙʟᴇ", callback_data=f"wlc_on_{chat_id}"),
+            InlineKeyboardButton("ᴅɪꜱᴀʙʟᴇ", callback_data=f"wlc_off_{chat_id}")
+        ]
+    ])
+
+    await message.reply_text(
+        f"» ᴄᴜʀʀᴇɴᴛʟʏ ᴡᴇʟᴄᴏᴍᴇ ꜱᴛᴀᴛᴜꜱ **{status}** ɪɴ **{chat.title}**",
+        reply_markup=btn
+    )
+    
 @app.on_callback_query(filters.regex("wlc_"))
 async def welcome_toggle(_, query):
     data = query.data.split("_")

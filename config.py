@@ -31,11 +31,11 @@ HEROKU_APP_NAME = getenv("HEROKU_APP_NAME")
 HEROKU_API_KEY = getenv("HEROKU_API_KEY")
 
 API_URL = getenv("API_URL", "") #youtube song url
-API_KEY = getenv("API_KEY", None) # youtube song api key, generate free key or buy paid plan from panel.thequickearn.xyz
+API_KEY = getenv("API_KEY", None) # .z
 
 UPSTREAM_REPO = getenv(
     "UPSTREAM_REPO",
-    "https://github.com/clone-1999/Musicapistore",
+    "https://github.com/core-999/Keymm",
 )
 UPSTREAM_BRANCH = getenv("UPSTREAM_BRANCH", "master")
 GIT_TOKEN = getenv(
@@ -84,21 +84,21 @@ confirmer = {}
 
 
 START_IMG_URL = getenv(
-    "START_IMG_URL", "https://raw.githubusercontent.com/DevloperSP/MusicSp/main/.assets/sunset_mountain.jpg"
+    "START_IMG_URL", "https://i.ibb.co/0VnyqcDm/x.jpg"
 )
 PING_IMG_URL = getenv(
     "PING_IMG_URL", "https://raw.githubusercontent.com/DevloperSP/MusicSp/main/.assets/starry_night.jpg"
 )
-PLAYLIST_IMG_URL = "https://raw.githubusercontent.com/DevloperSP/MusicSp/main/.assets/starry_night.jpg"
-STATS_IMG_URL = "https://raw.githubusercontent.com/DevloperSP/MusicSp/main/.assets/sunset_mountain.jpg"
-TELEGRAM_AUDIO_URL = "https://raw.githubusercontent.com/DevloperSP/MusicSp/main/.assets/morning_sunrise.jpg"
-TELEGRAM_VIDEO_URL = "https://raw.githubusercontent.com/DevloperSP/MusicSp/main/.assets/morning_sunrise.jpg"
-STREAM_IMG_URL = "https://raw.githubusercontent.com/DevloperSP/MusicSp/main/.assets/morning_sunrise.jpg"
-SOUNCLOUD_IMG_URL = "https://raw.githubusercontent.com/DevloperSP/MusicSp/main/.assets/music_forest.jpg"
-YOUTUBE_IMG_URL = "https://raw.githubusercontent.com/DevloperSP/MusicSp/main/.assets/morning_sunrise.jpg"
-SPOTIFY_ARTIST_IMG_URL = "https://raw.githubusercontent.com/DevloperSP/MusicSp/main/.assets/music_forest.jpg"
-SPOTIFY_ALBUM_IMG_URL = "https://raw.githubusercontent.com/DevloperSP/MusicSp/main/.assets/music_forest.jpg"
-SPOTIFY_PLAYLIST_IMG_URL = "https://raw.githubusercontent.com/DevloperSP/MusicSp/main/.assets/music_forest.jpg"
+PLAYLIST_IMG_URL = "https://i.ibb.co/0VnyqcDm/x.jpg"
+STATS_IMG_URL = "https://i.ibb.co/0VnyqcDm/x.jpg"
+TELEGRAM_AUDIO_URL = "https://i.ibb.co/0VnyqcDm/x.jpg"
+TELEGRAM_VIDEO_URL = "https://i.ibb.co/0VnyqcDm/x.jpg"
+STREAM_IMG_URL = "https://i.ibb.co/0VnyqcDm/x.jpg"
+SOUNCLOUD_IMG_URL = "https://i.ibb.co/0VnyqcDm/x.jpg"
+YOUTUBE_IMG_URL = "https://i.ibb.co/0VnyqcDm/x.jpg"
+SPOTIFY_ARTIST_IMG_URL = "https://i.ibb.co/0VnyqcDm/x.jpg"
+SPOTIFY_ALBUM_IMG_URL = "https://i.ibb.co/0VnyqcDm/x.jpg"
+SPOTIFY_PLAYLIST_IMG_URL = "https://i.ibb.co/0VnyqcDm/x.jpg"
 
 
 def time_to_seconds(time):

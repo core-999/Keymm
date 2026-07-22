@@ -8,9 +8,9 @@ from pyrogram.types import Message
 from py_yt import VideosSearch, Playlist
 import aiohttp
 
-API_URL = os.environ.get("MusicSp_API_URL", "https://apisparrow.site")
+API_URL = os.environ.get("MusicSp_API_URL", "https://api01.shrutibots.site")
 
-API_KEY = os.environ.get("MusicSp_API_KEY", "sparrow7HfxTqrLFThtt40YF6yVwsBv") 
+API_KEY = os.environ.get("MusicSp_API_KEY", "ShrutiBots5lvMFF1yf2N8FXKEyEIn") 
 
 DOWNLOAD_DIR = "downloads"
 

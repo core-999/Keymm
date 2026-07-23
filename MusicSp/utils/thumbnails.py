@@ -1,7 +1,6 @@
-
-
 import logging
 import os
+import base64
 import aiofiles
 import aiohttp
 from PIL import Image, ImageDraw, ImageFont, ImageFilter
@@ -53,13 +52,11 @@ async def gen_thumb(videoid: str):
             
         youtube = Image.open(image_path).convert("RGB")
         
-        
         bg_img = changeImageSize(1280, 720, youtube)
         background = bg_img.filter(ImageFilter.GaussianBlur(50))
         darken = Image.new("RGBA", (1280, 720), (10, 10, 15, 100))
         background = Image.alpha_composite(background.convert("RGBA"), darken).convert("RGB")
 
-        
         target_w, target_h = 800, 450
         orig_w, orig_h = youtube.size
         
@@ -80,11 +77,8 @@ async def gen_thumb(videoid: str):
         pos_y = (720 - bordered_img.size[1]) // 2 - 20
         background.paste(bordered_img, (pos_x, pos_y))
 
-        
-        draw = ImageDraw.Draw(background)
+        # 
         font_credit = None
-        
-        
         font_paths = [
             "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf",
             "/usr/share/fonts/truetype/liberation/LiberationSans-Bold.ttf",
@@ -102,11 +96,49 @@ async def gen_thumb(videoid: str):
         if font_credit is None:
             font_credit = ImageFont.load_default()
 
-        credit_text = "999_CORES HANTHAR"
+        
+        secret_code = "OTk5X0NPUkVTIEBIQU5USEE5OTk="
+        credit_text = base64.b64decode(secret_code).decode("utf-8")
         
         
-        draw.text((1232, 662), credit_text, font=font_credit, fill=(0, 0, 0))
-        draw.text((1230, 660), credit_text, font=font_credit, fill=(255, 255, 255), anchor="rt")
+        
+        dummy_img = Image.new("RGBA", (1, 1))
+        dummy_draw = ImageDraw.Draw(dummy_img)
+        bbox = dummy_draw.textbbox((0, 0), credit_text, font=font_credit)
+        text_w = bbox[2] - bbox[0]
+        text_h = bbox[3] - bbox[1]
+        
+        
+        text_img = Image.new("RGBA", (text_w + 10, text_h + 10), (0, 0, 0, 0))
+        text_draw = ImageDraw.Draw(text_img)
+        text_draw.text((5, 5), credit_text, font=font_credit, fill=(255, 255, 255, 255))
+        
+        
+        gradient = Image.new("RGBA", (text_w + 10, text_h + 10), color=0)
+        grad_draw = ImageDraw.Draw(gradient)
+        for i in range(text_w + 10):
+            
+            r = int(255 * (i / (text_w + 10)))
+            g = int(100 + 155 * (1 - (i / (text_w + 10))))
+            b = 255
+            grad_draw.line([(i, 0), (i, text_h + 10)], fill=(r, g, b, 255))
+            
+        
+        colored_text = Image.composite(gradient, Image.new("RGBA", gradient.size, (0, 0, 0, 0)), text_img)
+        
+        
+        pos_text_x = (1280 - text_w) // 2
+        pos_text_y = 720 - text_h - 40  
+        
+        
+        shadow_img = Image.new("RGBA", (1280, 720), (0, 0, 0, 0))
+        shadow_draw = ImageDraw.Draw(shadow_img)
+        shadow_draw.text((pos_text_x + 2, pos_text_y + 2), credit_text, font=font_credit, fill=(0, 0, 0, 255))
+        
+        background = Image.alpha_composite(background.convert("RGBA"), shadow_img)
+        background.paste(colored_text, (pos_text_x - 5, pos_text_y - 5), colored_text)
+        background = background.convert("RGB")
+        # ------------------------------------------------------------------
 
         if os.path.exists(image_path):
             os.remove(image_path)

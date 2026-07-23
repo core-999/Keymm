@@ -87,7 +87,7 @@ START_IMG_URL = getenv(
     "START_IMG_URL", "https://i.ibb.co/0VnyqcDm/x.jpg"
 )
 PING_IMG_URL = getenv(
-    "PING_IMG_URL", "https://raw.githubusercontent.com/DevloperSP/MusicSp/main/.assets/starry_night.jpg"
+    "PING_IMG_URL", "https://i.ibb.co/wFGtd27V/x.jpg"
 )
 PLAYLIST_IMG_URL = "https://i.ibb.co/0VnyqcDm/x.jpg"
 STATS_IMG_URL = "https://i.ibb.co/0VnyqcDm/x.jpg"

@@ -54,7 +54,7 @@ async def gen_thumb(videoid: str):
         
         bg_img = changeImageSize(1280, 720, youtube)
         background = bg_img.filter(ImageFilter.GaussianBlur(50))
-        darken = Image.new("RGBA", (1280, 720), (10, 10, 15, 100))
+        darken = Image.new("RGBA", (1280, 720), (10, 10, 15, 30))
         background = Image.alpha_composite(background.convert("RGBA"), darken).convert("RGB")
 
         target_w, target_h = 800, 450
@@ -97,7 +97,7 @@ async def gen_thumb(videoid: str):
             font_credit = ImageFont.load_default()
 
         
-        secret_code = "OTk5X0NPUkVTIEBIQU5USEE5OTk="
+        secret_code = "U09VUkNFIC0gQEhBTlRIQVI5OTkgQENPUkVTXzk5OQ=="
         credit_text = base64.b64decode(secret_code).decode("utf-8")
         
         

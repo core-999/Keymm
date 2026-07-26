@@ -1,4 +1,5 @@
 from pyrogram.types import InlineKeyboardButton
+from pyrogram.enums import ButtonStyle
 
 import config
 from MusicSp import app
@@ -29,6 +30,6 @@ def private_panel(_):
             InlineKeyboardButton(text=_["S_B_6"], url=config.SUPPORT_CHANNEL),
             InlineKeyboardButton(text=_["S_B_2"], url=config.SUPPORT_GROUP),
         ],
-        [InlineKeyboardButton(text="Botများပြုလုပ်လို့ပါက နိုပ်ပါ", url="https://t.me/+73UOpH8smTplYTE9")],
+        [InlineKeyboardButton(text="𝕮_𝕺_𝕽_𝕰", url="https://t.me/+73UOpH8smTplYTE9", icon_custom_emoji_id="5818802717455290572")],
     ]
     return buttons

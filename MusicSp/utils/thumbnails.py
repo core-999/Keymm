@@ -24,7 +24,10 @@ async def gen_thumb(videoid: str):
         os.makedirs("cache", exist_ok=True)
 
         
-        image_path = "../assets/coremusic.jpg"
+                
+        current_dir = os.path.dirname(os.path.abspath(__file__))
+        image_path = os.path.join(current_dir, "../assets/coremusic.jpg")
+
 
         if not os.path.exists(image_path):
             logging.error(f"ဖိုင်ကို ရှာမတွေ့ပါ။ လမ်းကြောင်းမှန်ကန်မှု ရှိမရှိ စစ်ဆေးပါ။: {image_path}")

@@ -27,13 +27,11 @@ async def gen_thumb(videoid: str):
 
         os.makedirs("cache", exist_ok=True)
 
-        
         custom_image_url = getattr(
             config, "CUSTOM_THUMB_URL", "https://files.catbox.moe/agqvg6.jpg"
         )
         image_path = f"cache/thumb{videoid}.png"
 
-        
         headers = {
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, Gecko) Chrome/120.0.0.0 Safari/537.36"
         }
@@ -57,42 +55,18 @@ async def gen_thumb(videoid: str):
 
         
         bg_img = changeImageSize(1280, 720, custom_img)
-        background = bg_img.filter(ImageFilter.GaussianBlur(1))
-        darken = Image.new("RGBA", (1280, 720), (10, 10, 15, 30))
+        background = bg_img.filter(ImageFilter.GaussianBlur(15))
+        darken = Image.new("RGBA", (1280, 720), (10, 10, 15, 100))
         background = Image.alpha_composite(
             background.convert("RGBA"), darken
         ).convert("RGB")
 
         
-        target_w, target_h = 800, 450
-        orig_w, orig_h = custom_img.size
+        target_w, target_h = 1280, 720
+        foreground = changeImageSize(target_w, target_h, custom_img)
 
-        if orig_w / orig_h > target_w / target_h:
-            w_crop = int(orig_h * (target_w / target_h))
-            img_cropped = custom_img.crop(
-                ((orig_w - w_crop) // 2, 0, (orig_w + w_crop) // 2, orig_h)
-            )
-        else:
-            h_crop = int(orig_w * (target_h / target_w))
-            img_cropped = custom_img.crop(
-                (0, (orig_h - h_crop) // 2, orig_w, (orig_h + h_crop) // 2)
-            )
-
-        foreground = img_cropped.resize(
-            (target_w, target_h), Image.Resampling.LANCZOS
-        )
-
-        border_size = 10
-        bordered_img = Image.new(
-            "RGB",
-            (target_w + border_size * 2, target_h + border_size * 2),
-            (255, 255, 255),
-        )
-        bordered_img.paste(foreground, (border_size, border_size))
-
-        pos_x = (1280 - bordered_img.size[0]) // 2
-        pos_y = (720 - bordered_img.size[1]) // 2 - 20
-        background.paste(bordered_img, (pos_x, pos_y))
+    
+        background.paste(foreground, (0, 0))
 
         
         font_credit = None
@@ -113,7 +87,6 @@ async def gen_thumb(videoid: str):
         if font_credit is None:
             font_credit = ImageFont.load_default()
 
-        
         secret_code = "U09VUkNFIC0gQEhBTlRIQVI5OTkgQEhFWF9LSU5HOQ=="
         credit_text = base64.b64decode(secret_code).decode("utf-8")
 
@@ -161,7 +134,6 @@ async def gen_thumb(videoid: str):
         )
         background = background.convert("RGB")
 
-        #
         if os.path.exists(image_path):
             os.remove(image_path)
 

@@ -25,8 +25,10 @@ async def gen_thumb(videoid: str):
 
         
                 
+            
         current_dir = os.path.dirname(os.path.abspath(__file__))
-        image_path = os.path.join(current_dir, "../assets/coremusic.jpg")
+        root_dir = os.path.dirname(current_dir)
+        image_path = os.path.join(root_dir, "assets", "coremusic.jpg")
 
 
         if not os.path.exists(image_path):

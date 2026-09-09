@@ -1,11 +1,7 @@
 import logging
 import os
 import base64
-import aiofiles
-import aiohttp
 from PIL import Image, ImageDraw, ImageFont, ImageFilter
-
-import config
 
 logging.basicConfig(level=logging.INFO)
 
@@ -27,33 +23,16 @@ async def gen_thumb(videoid: str):
 
         os.makedirs("cache", exist_ok=True)
 
-        custom_image_url = getattr(
-            config, "CUSTOM_THUMB_URL", "https://files.catbox.moe/agqvg6.jpg"
-        )
-        image_path = f"cache/thumb{videoid}.png"
-
-        headers = {
-            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, Gecko) Chrome/120.0.0.0 Safari/537.36"
-        }
-        timeout = aiohttp.ClientTimeout(total=15)
-
-        async with aiohttp.ClientSession(headers=headers, timeout=timeout) as session:
-            async with session.get(custom_image_url) as resp:
-                if resp.status == 200:
-                    async with aiofiles.open(image_path, mode="wb") as f:
-                        await f.write(await resp.read())
-                else:
-                    logging.error(
-                        f"Config Image URL မှ ပုံကို ဒေါင်းလုဒ်ဆွဲ၍ မရပါ။ Status: {resp.status}"
-                    )
-                    return None
+        
+        image_path = "../assets/coremusic.jpg"
 
         if not os.path.exists(image_path):
+            logging.error(f"ဖိုင်ကို ရှာမတွေ့ပါ။ လမ်းကြောင်းမှန်ကန်မှု ရှိမရှိ စစ်ဆေးပါ။: {image_path}")
             return None
 
         custom_img = Image.open(image_path).convert("RGB")
 
-        
+    
         bg_img = changeImageSize(1280, 720, custom_img)
         background = bg_img.filter(ImageFilter.GaussianBlur(15))
         darken = Image.new("RGBA", (1280, 720), (10, 10, 15, 100))
@@ -64,11 +43,9 @@ async def gen_thumb(videoid: str):
         
         target_w, target_h = 1280, 720
         foreground = changeImageSize(target_w, target_h, custom_img)
-
-    
         background.paste(foreground, (0, 0))
 
-        
+        # Credit စာသားအပိုင်း
         font_credit = None
         font_paths = [
             "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf",
@@ -133,9 +110,6 @@ async def gen_thumb(videoid: str):
             colored_text, (pos_text_x - 5, pos_text_y - 5), colored_text
         )
         background = background.convert("RGB")
-
-        if os.path.exists(image_path):
-            os.remove(image_path)
 
         background_path = f"cache/{videoid}_v4.png"
         background.save(background_path, quality=95)

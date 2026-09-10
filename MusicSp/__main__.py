@@ -1,4 +1,24 @@
 import asyncio
+import sys
+
+# Ensure uvloop and event loop are configured BEFORE importing pytgcalls or plugins
+if sys.platform != "win32":
+    try:
+        import uvloop
+        uvloop.install()
+    except (ImportError, Exception):
+        pass
+
+try:
+    loop = asyncio.get_event_loop()
+except RuntimeError:
+    loop = asyncio.new_event_loop()
+    asyncio.set_event_loop(loop)
+else:
+    if loop.is_closed():
+        loop = asyncio.new_event_loop()
+        asyncio.set_event_loop(loop)
+
 import importlib
 
 from pyrogram import idle
@@ -7,7 +27,7 @@ from pytgcalls.exceptions import NoActiveGroupCall
 import config
 from MusicSp import LOGGER, app, userbot
 from MusicSp.core.call import DevSp
-from MusicSp.misc import sudo
+from MusicSp.misc import sudo, system_check
 from MusicSp.plugins import ALL_MODULES
 from MusicSp.utils.database import get_banned_users, get_gbanned
 from config import BANNED_USERS
@@ -42,21 +62,29 @@ async def init():
     try:
         await DevSp.stream_call("https://te.legra.ph/file/29f784eb49d230ab62e9e.mp4")
     except NoActiveGroupCall:
-        LOGGER("MusicSp").error(
-            "Please turn on the videochat of your log group\channel.\n\nStopping Bot..."
+        LOGGER("MusicSp").warning(
+            "Videochat not active in log group. Bot is ready to join group voice chats on command."
         )
-        exit()
-    except:
+    except Exception:
         pass
     await DevSp.decorators()
     LOGGER("MusicSp").info(
-        "Music Started Successfully.\n\nDon't forget to visit @coresHexking"
+        "MYanmar Started Successfully.\n\nDon't forget to visit @myanmar_Fm_Bot"
     )
+    try:
+        await system_check()
+    except:
+        pass
     await idle()
     await app.stop()
     await userbot.stop()
-    LOGGER("MusicSp").info("Stopping Devloper KHH Bot...")
+    LOGGER("MusicSp").info("Stopping Devloper HanThar Bot...")
 
 
 if __name__ == "__main__":
-    asyncio.get_event_loop().run_until_complete(init())
+    try:
+        loop = asyncio.get_event_loop()
+    except RuntimeError:
+        loop = asyncio.new_event_loop()
+        asyncio.set_event_loop(loop)
+    loop.run_until_complete(init())

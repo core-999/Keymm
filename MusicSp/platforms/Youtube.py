@@ -9,10 +9,10 @@ from py_yt import VideosSearch, Playlist
 import aiohttp
 import config
 
-API_URL = config.API_URL or os.environ.get("API_URL", "")
+API_URL = config.API_URL or os.environ.get("API_URL", None)
 if API_URL:
     API_URL = API_URL.rstrip("/")
-API_KEY = config.API_KEY or os.environ.get("API_KEY", "")
+API_KEY = config.API_KEY or os.environ.get("API_KEY", None)
 
 DOWNLOAD_DIR = "downloads"
 

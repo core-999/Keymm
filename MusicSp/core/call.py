@@ -1,4 +1,15 @@
 import asyncio
+
+try:
+    loop = asyncio.get_event_loop()
+except RuntimeError:
+    loop = asyncio.new_event_loop()
+    asyncio.set_event_loop(loop)
+else:
+    if loop.is_closed():
+        loop = asyncio.new_event_loop()
+        asyncio.set_event_loop(loop)
+
 import os
 from datetime import datetime, timedelta
 from typing import Union
@@ -15,6 +26,9 @@ from pytgcalls.types import Update
 from pytgcalls.types.input_stream import AudioPiped, AudioVideoPiped
 from pytgcalls.types.input_stream.quality import HighQualityAudio, MediumQualityVideo
 from pytgcalls.types.stream import StreamAudioEnded
+
+# Apply PyTgCalls MTProto compatibility patches
+import MusicSp.core.patch
 
 import config
 from MusicSp import LOGGER, YouTube, app
